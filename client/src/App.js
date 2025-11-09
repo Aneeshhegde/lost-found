@@ -6,8 +6,6 @@ import NotFound from "./components/404";
 import LostAndFoundForm from "./components/LostAndFoundForm";
 import HomePage from "./components/HomePage";
 import LostAndFoundList from "./components/LostAndFoundList";
-import HelperList from "./components/HelperList";
-import ClaimantList from "./components/ClaimantList";
 import PersonalItems from "./components/PersonalItems";
 import AdminPortal from "./components/AdminPortal";
 import AdminRoute from "./components/AdminRoute";
@@ -41,11 +39,6 @@ const App = () => {
         <Route
           path="/all-items/found"
           element={user ? <LostAndFoundList req="found" /> : <Signin />}
-        />
-        <Route path="/helpers" element={user ? <HelperList /> : <Signin />} />
-        <Route
-          path="/claimants"
-          element={user ? <ClaimantList /> : <Signin />}
         />
         <Route
           path="/admin"

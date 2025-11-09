@@ -29,6 +29,12 @@ const ItemSchema = new mongoose.Schema({
         required: true,
         minlength: 10
     },
+    usn: {
+        type: String,
+        required: true,
+        uppercase: true,
+        trim: true
+    },
     images: [{ type: String }], // Array to store image paths
     date: {
         type: Date,

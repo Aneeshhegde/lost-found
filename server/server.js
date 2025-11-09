@@ -11,6 +11,7 @@ const itemController = require("./routes/itemController");
 const userController = require("./routes/userController");
 const claimantController = require("./routes/claimantController");
 const helperController = require("./routes/helperController");
+const claimController = require("./routes/claimController");
 const requireAuth = require("./middleware/requireAuth");
 const errorHandler = require("./middleware/errorHandler");
 const {
@@ -65,6 +66,12 @@ app.put("/helper/:id", validateHelper, helperController.updateHelper);
 app.get("/helper", helperController.fetchHelpers);
 app.get("/helper/:id", helperController.fetchHelper);
 app.delete("/helper/:id", helperController.deleteHelper);
+
+app.post("/claim", claimController.createClaim);
+app.get("/claim", claimController.fetchClaims);
+app.get("/claim/pending", claimController.fetchPendingClaims);
+app.put("/claim/:id", claimController.updateClaim);
+app.delete("/claim/:id", claimController.deleteClaim);
 
 // Error handling middleware
 app.use(errorHandler);

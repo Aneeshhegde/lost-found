@@ -219,6 +219,7 @@ function LostAndFoundForm() {
   const [itemdescription, setItemDescription] = useState("");
   const [concerntype, setConcernType] = useState("lost");
   const [phonenumber, setPhoneNumber] = useState("");
+  const [usn, setUsn] = useState("");
 
   useEffect(() => {
     const fetchUserDetails = async () => {
@@ -290,6 +291,7 @@ function LostAndFoundForm() {
   const handleItemDescriptionChange = (e) => setItemDescription(e.target.value);
   const handleConcernTypeChange = (e) => setConcernType(e.target.value);
   const handlePhoneNumberChange = (e) => setPhoneNumber(e.target.value);
+  const handleUsnChange = (e) => setUsn(e.target.value.toUpperCase());
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -304,6 +306,7 @@ function LostAndFoundForm() {
       itemdescription,
       concerntype,
       phonenumber,
+      usn,
       images,
     };
 
@@ -324,6 +327,7 @@ function LostAndFoundForm() {
       setItemDescription("");
       setConcernType("lost");
       setPhoneNumber("");
+      setUsn("");
       setImages([]);
 
       navigate("/my-items/");
@@ -341,94 +345,135 @@ function LostAndFoundForm() {
   return (
     <>
       <Navbar />
-      <div className="lost-and-found-form">
-        <h2>Report Lost or Found Item</h2>
-        <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label htmlFor="itemname">Item Name:</label>
-            <input
-              type="text"
-              id="itemname"
-              name="itemname"
-              value={itemname}
-              onChange={handleItemNameChange}
-              required
-            />
+      <div className="form-container">
+        <div className="lost-and-found-form">
+          <div className="form-header">
+            <h2>📋 Report Lost or Found Item</h2>
+            <p className="form-subtitle">Help us reunite items with their owners</p>
           </div>
+          <form onSubmit={handleSubmit}>
+            <div className="form-row">
+              <div className="form-group">
+                <label htmlFor="itemname">📦 Item Name *</label>
+                <input
+                  type="text"
+                  id="itemname"
+                  name="itemname"
+                  value={itemname}
+                  onChange={handleItemNameChange}
+                  placeholder="e.g., Blue Wallet, iPhone 13"
+                  required
+                />
+              </div>
 
-          <div className="form-group">
-            <label htmlFor="itemdescription">Item Description:</label>
-            <textarea
-              id="itemdescription"
-              name="itemdescription"
-              value={itemdescription}
-              onChange={handleItemDescriptionChange}
-              required
-            />
-          </div>
+              <div className="form-group">
+                <label htmlFor="concerntype">🏷️ Type *</label>
+                <select
+                  id="concerntype"
+                  name="concerntype"
+                  value={concerntype}
+                  onChange={handleConcernTypeChange}
+                >
+                  <option value="lost">🔴 Lost</option>
+                  <option value="found">🟢 Found</option>
+                </select>
+              </div>
+            </div>
 
-          <div className="form-group">
-            <label htmlFor="concerntype">Concern Type:</label>
-            <select
-              id="concerntype"
-              name="concerntype"
-              value={concerntype}
-              onChange={handleConcernTypeChange}
-              className="form-group1"
-              style={{ maxWidth: "105%" }}
-            >
-              <option value="lost">Lost</option>
-              <option value="found">Found</option>
-            </select>
-          </div>
+            <div className="form-group">
+              <label htmlFor="itemdescription">📝 Item Description *</label>
+              <textarea
+                id="itemdescription"
+                name="itemdescription"
+                value={itemdescription}
+                onChange={handleItemDescriptionChange}
+                placeholder="Provide detailed description (color, brand, unique features, where it was lost/found, etc.)"
+                required
+                rows="4"
+              />
+            </div>
 
-          <div className="form-group">
-            <label htmlFor="phonenumber">Phone Number (for WhatsApp notifications):</label>
-            <input
-              type="tel"
-              id="phonenumber"
-              name="phonenumber"
-              value={phonenumber}
-              onChange={handlePhoneNumberChange}
-              placeholder="Enter your phone number with country code (e.g., +919876543210)"
-              required
-              minLength="10"
-              maxLength="15"
-            />
-          </div>
+            <div className="form-row">
+              <div className="form-group">
+                <label htmlFor="usn">🎓 Your USN *</label>
+                <input
+                  type="text"
+                  id="usn"
+                  name="usn"
+                  value={usn}
+                  onChange={handleUsnChange}
+                  placeholder="e.g., 4NI21CS001"
+                  required
+                  pattern="[A-Z0-9]+"
+                  title="Please enter a valid USN (uppercase letters and numbers)"
+                />
+                <small className="field-hint">This will only be visible to admin</small>
+              </div>
 
-          <div className="form-group">
-            <label htmlFor="proofPhotos">Proof Photos:</label>
-            <input
-              type="file"
-              id="proofPhotos"
-              name="proofPhotos"
-              accept="image/*"
-              multiple
-              onChange={convertToBase64}
-            />
-            {images.length > 0 && (
-              <>
-                <b>Preview:</b>
+              <div className="form-group">
+                <label htmlFor="phonenumber">📱 WhatsApp Number *</label>
+                <input
+                  type="tel"
+                  id="phonenumber"
+                  name="phonenumber"
+                  value={phonenumber}
+                  onChange={handlePhoneNumberChange}
+                  placeholder="+91 9876543210"
+                  required
+                  minLength="10"
+                  maxLength="15"
+                />
+                <small className="field-hint">Include country code</small>
+              </div>
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="proofPhotos">📷 Proof Photos (Optional)</label>
+              <div className="file-upload-wrapper">
+                <input
+                  type="file"
+                  id="proofPhotos"
+                  name="proofPhotos"
+                  accept="image/*"
+                  multiple
+                  onChange={convertToBase64}
+                  className="file-input"
+                />
+                <label htmlFor="proofPhotos" className="file-upload-label">
+                  <span className="upload-icon">📁</span>
+                  <span className="upload-text">
+                    {images.length > 0 ? `${images.length} image(s) selected` : 'Click to upload images'}
+                  </span>
+                </label>
+              </div>
+              {images.length > 0 && (
                 <div className="image-preview">
                   {images.map((img, index) => (
-                    <img
-                      key={index}
-                      width={100}
-                      height={100}
-                      src={img}
-                      alt={`Preview ${index}`}
-                    />
+                    <div key={index} className="preview-image-wrapper">
+                      <img
+                        src={img}
+                        alt={`Preview ${index + 1}`}
+                        className="preview-image"
+                      />
+                      <button
+                        type="button"
+                        className="remove-image"
+                        onClick={() => setImages(images.filter((_, i) => i !== index))}
+                      >
+                        ✕
+                      </button>
+                    </div>
                   ))}
                 </div>
-              </>
-            )}
-          </div>
+              )}
+            </div>
 
-          <button className="submit-button" type="submit">
-            Submit
-          </button>
-        </form>
+            <button className="submit-button" type="submit">
+              <span className="button-icon">✓</span>
+              Submit Report
+            </button>
+          </form>
+        </div>
       </div>
     </>
   );

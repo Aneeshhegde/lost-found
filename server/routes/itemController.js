@@ -1,4 +1,5 @@
 const Item = require("../models/ItemSchema");
+const { sendNewItemNotification } = require("../utils/emailService");
 
 const fetchItems = async (req, res) => {
   try {
@@ -69,6 +70,19 @@ const createItem = async (req, res) => {
       phonenumber: phonenumber,
       images: images,
       user: userId, // Include the user ID in the item
+    });
+
+    // Send email notification to admin
+    console.log('📧 Attempting to send email notification for item:', item.itemname);
+    sendNewItemNotification(item).then(result => {
+      if (result.success) {
+        console.log('✅ Admin notification email sent successfully!');
+        console.log('   Message ID:', result.messageId);
+      } else {
+        console.error('❌ Failed to send admin notification email:', result.error);
+      }
+    }).catch(error => {
+      console.error('❌ Error in email notification promise:', error);
     });
 
     // Respond with the created item

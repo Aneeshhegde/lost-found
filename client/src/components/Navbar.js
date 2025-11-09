@@ -268,36 +268,45 @@ const Navbar = () => {
     display: "flex",
     justifyContent: "space-evenly",
     alignItems: "center",
-    backgroundColor: "#f4ffff",
+    background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
     color: "white",
-    padding: "10px 20px",
-    boxShadow: "0 0 10px hsla(293, 45.50%, 65.50%, 0.32)",
-    height: "60px",
-    position: "relative",
+    padding: "15px 30px",
+    boxShadow: "0 4px 20px rgba(102, 126, 234, 0.3)",
+    height: "70px",
+    position: "sticky",
+    top: 0,
+    zIndex: 999,
+    backdropFilter: "blur(10px)",
   };
 
   const linkContainerStyle = {
     display: !isSmallScreen ? "flex" : "none",
     alignItems: "center",
     flexWrap: "wrap",
+    gap: "8px",
   };
 
   const linkStyle = (path) => ({
-    backgroundColor: isActive(path) ? "blue" : "white",
-    color: isActive(path) ? "white" : "black",
+    background: isActive(path) 
+      ? "rgba(255, 255, 255, 0.25)" 
+      : "rgba(255, 255, 255, 0.1)",
+    color: "white",
     textDecoration: "none",
-    fontSize: "14px",
-    fontWeight: "bold",
-    padding: "8px 14px",
-    margin: "0 6px",
-    borderRadius: "8px",
+    fontSize: "0.95rem",
+    fontWeight: "600",
+    padding: "10px 18px",
+    margin: "0",
+    borderRadius: "25px",
     transition: "all 0.3s ease",
     display: "inline-block",
-    border: "1px solid transparent",
+    border: isActive(path) ? "2px solid rgba(255, 255, 255, 0.5)" : "2px solid transparent",
     cursor: "pointer",
     boxShadow: isActive(path)
-      ? "0 0 6px rgba(0, 180, 216, 0.6)"
-      : "0 0 3px rgba(255, 255, 255, 0.2)",
+      ? "0 4px 15px rgba(255, 255, 255, 0.2)"
+      : "none",
+    backdropFilter: "blur(10px)",
+    textTransform: "capitalize",
+    letterSpacing: "0.3px",
   });
 
   const iconStyle = {
@@ -328,15 +337,12 @@ const Navbar = () => {
     { path: "/all-items/lost", label: "Lost", auth: true },
     { path: "/all-items/found", label: "Found", auth: true },
     { path: "/raise-a-concern", label: "Raise Concern", auth: true },
-    { path: "/helpers", label: "Helpers", auth: true },
-    { path: "/claimants", label: "Claimants", auth: true },
     { path: "/sign-up", label: "Sign Up", auth: false },
     { path: "/sign-in", label: "Sign In", auth: false },
   ];
 
   const handleAdminAccessBeforeLogin = () => {
     // Show admin login modal even before user login
-    console.log("Admin button clicked, opening modal...");
     setShowAdminModal(true);
   };
 

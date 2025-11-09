@@ -10,33 +10,59 @@ const Base_URL = config.baseURL;
 const AdminPortal = () => {
   const [items, setItems] = useState([]);
   const [helpers, setHelpers] = useState([]);
+  const [claims, setClaims] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [filter, setFilter] = useState("all"); // all, lost, found
-  const [activeTab, setActiveTab] = useState("items"); // items, helpers
+  const [activeTab, setActiveTab] = useState("items"); // items, helpers, claims
+  const [meetingPlace, setMeetingPlace] = useState("");
 
   useEffect(() => {
-    fetchItems();
-    fetchHelpers();
+    fetchAllData();
   }, []);
+
+  const fetchAllData = async () => {
+    setIsLoading(true);
+    try {
+      await Promise.all([
+        fetchItems(),
+        fetchHelpers(),
+        fetchClaims()
+      ]);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const fetchItems = async () => {
     try {
       const res = await axios.get(`${Base_URL}/item`);
-      setItems(res.data.gotItem);
+      setItems(res.data.gotItem || []);
     } catch (error) {
       console.error("Error fetching items:", error);
-      alert("Error fetching items. Please try again.");
-    } finally {
-      setIsLoading(false);
+      setItems([]);
     }
   };
 
   const fetchHelpers = async () => {
     try {
       const res = await axios.get(`${Base_URL}/helper`);
-      setHelpers(res.data.gotHelper);
+      setHelpers(res.data.gotHelper || []);
     } catch (error) {
       console.error("Error fetching helpers:", error);
+      setHelpers([]);
+    }
+  };
+
+  const fetchClaims = async () => {
+    try {
+      const res = await axios.get(`${Base_URL}/claim`);
+      console.log("Claims response:", res.data);
+      setClaims(res.data.gotClaim || []);
+    } catch (error) {
+      console.error("Error fetching claims:", error);
+      setClaims([]);
     }
   };
 
@@ -116,6 +142,56 @@ const AdminPortal = () => {
     window.open(whatsappUrl, "_blank");
   };
 
+  const handleApproveClaim = async (claim) => {
+    const place = prompt("Enter meeting place for item exchange:", "Lost & Found Office, Main Building");
+    
+    if (!place) {
+      alert("Meeting place is required to approve claim!");
+      return;
+    }
+
+    if (window.confirm(`Approve this claim and notify both parties to meet at: ${place}?`)) {
+      try {
+        // Update claim status
+        await axios.put(`${Base_URL}/claim/${claim._id}`, {
+          status: "approved",
+          meetingPlace: place
+        });
+
+        // Send WhatsApp to claimant (person who claimed)
+        const claimantMessage = `Hello ${claim.claimantName}! Your claim for "${claim.itemName}" has been APPROVED! Please bring the item to: ${place}. Contact: ${claim.itemOwnerPhone}. Thank you!`;
+        const claimantPhone = claim.claimantPhone.replace(/[^0-9+]/g, "");
+        window.open(`https://wa.me/${claimantPhone}?text=${encodeURIComponent(claimantMessage)}`, "_blank");
+
+        // Wait a moment then send to item owner
+        setTimeout(() => {
+          const ownerMessage = `Hello! Good news! Someone has claimed your ${claim.itemType} item: "${claim.itemName}". Please collect it from: ${place}. Claimant contact: ${claim.claimantPhone}. Thank you!`;
+          const ownerPhone = claim.itemOwnerPhone.replace(/[^0-9+]/g, "");
+          window.open(`https://wa.me/${ownerPhone}?text=${encodeURIComponent(ownerMessage)}`, "_blank");
+        }, 2000);
+
+        alert("Claim approved! WhatsApp messages sent to both parties.");
+        fetchClaims(); // Refresh list
+      } catch (error) {
+        console.error("Error approving claim:", error);
+        alert("Error approving claim. Please try again.");
+      }
+    }
+  };
+
+  const handleRejectClaim = async (claimId) => {
+    if (window.confirm("Are you sure you want to reject this claim?")) {
+      try {
+        await axios.delete(`${Base_URL}/claim/${claimId}`);
+        alert("Claim rejected and removed!");
+        fetchClaims();
+      } catch (error) {
+        console.error("Error rejecting claim:", error);
+        alert("Error rejecting claim. Please try again.");
+      }
+    }
+  };
+
   const filteredItems = items.filter((item) => {
     if (filter === "all") return true;
     return item.concerntype === filter;
@@ -125,7 +201,24 @@ const AdminPortal = () => {
     <>
       <Navbar />
       <div className="admin-portal">
-        <h1>Admin Portal - Lost & Found Management</h1>
+        <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px'}}>
+          <h1>Admin Portal - Lost & Found Management</h1>
+          <button 
+            onClick={fetchAllData}
+            style={{
+              padding: '10px 20px',
+              backgroundColor: '#3498db',
+              color: 'white',
+              border: 'none',
+              borderRadius: '8px',
+              cursor: 'pointer',
+              fontSize: '16px',
+              fontWeight: 'bold'
+            }}
+          >
+            🔄 Refresh All
+          </button>
+        </div>
         
         {/* Tab Navigation */}
         <div className="tab-navigation">
@@ -140,6 +233,12 @@ const AdminPortal = () => {
             onClick={() => setActiveTab("helpers")}
           >
             🤝 Helper Requests ({helpers.length})
+          </button>
+          <button
+            className={`tab-btn ${activeTab === "claims" ? "active" : ""}`}
+            onClick={() => setActiveTab("claims")}
+          >
+            🎯 Claims ({claims.length})
           </button>
         </div>
 
@@ -321,6 +420,71 @@ const AdminPortal = () => {
                         ✗ Reject
                       </button>
                     </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </>
+        )}
+
+        {/* Claims Tab */}
+        {activeTab === "claims" && (
+          <>
+            {isLoading ? (
+              <Spinner />
+            ) : claims.length === 0 ? (
+              <p className="no-items">No claims found.</p>
+            ) : (
+              <div className="items-grid">
+                {claims.map((claim) => (
+                  <div key={claim._id} className="item-card claim-card">
+                    <div className="item-header">
+                      <h3>🎯 Claim Request</h3>
+                      <span className={`badge ${claim.status === 'pending' ? 'claim-pending' : claim.status === 'approved' ? 'claim-approved' : 'claim-rejected'}`}>
+                        {claim.status.toUpperCase()}
+                      </span>
+                    </div>
+                    
+                    <div className="item-details">
+                      <p><strong>Item:</strong> {claim.itemName}</p>
+                      <p><strong>Type:</strong> {claim.itemType === 'lost' ? '🔴 Lost' : '🟢 Found'}</p>
+                      <p><strong>Description:</strong> {claim.itemDescription}</p>
+                      <hr style={{margin: '10px 0', border: '1px solid #eee'}} />
+                      <p><strong>Claimant:</strong> {claim.claimantName}</p>
+                      <p><strong>Claimant Phone:</strong> {claim.claimantPhone}</p>
+                      <p><strong>Claimant Email:</strong> {claim.claimantEmail}</p>
+                      <p><strong>Claim Details:</strong> {claim.claimDescription}</p>
+                      <hr style={{margin: '10px 0', border: '1px solid #eee'}} />
+                      <p><strong>Item Owner Phone:</strong> {claim.itemOwnerPhone}</p>
+                      <p><strong>Date:</strong> {new Date(claim.date).toLocaleDateString()}</p>
+                      {claim.meetingPlace && (
+                        <p><strong>Meeting Place:</strong> {claim.meetingPlace}</p>
+                      )}
+                    </div>
+
+                    {claim.status === 'pending' && (
+                      <div className="action-buttons">
+                        <button
+                          className="approve-btn"
+                          onClick={() => handleApproveClaim(claim)}
+                        >
+                          ✓ Approve & Notify
+                        </button>
+                        
+                        <button
+                          className="reject-btn"
+                          onClick={() => handleRejectClaim(claim._id)}
+                        >
+                          ✗ Reject
+                        </button>
+                      </div>
+                    )}
+
+                    {claim.status === 'approved' && (
+                      <div style={{padding: '10px', background: '#d4edda', borderRadius: '8px', marginTop: '10px', color: '#155724'}}>
+                        ✅ Claim approved! Both parties notified.
+                      </div>
+                    )}
                   </div>
                 ))}
               </div>

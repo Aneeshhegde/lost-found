@@ -153,6 +153,25 @@
   border-left-color: #f39c12;
 }
 
+.claim-card {
+  border-left-color: #9b59b6;
+}
+
+.badge.claim-pending {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.badge.claim-approved {
+  background: #d4edda;
+  color: #155724;
+}
+
+.badge.claim-rejected {
+  background: #f8d7da;
+  color: #721c24;
+}
+
 .item-description {
   color: #555;
   line-height: 1.6;

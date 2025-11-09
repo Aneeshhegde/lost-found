@@ -46,70 +46,95 @@ const HomePage = () => {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    background: "linear-gradient(to right, #83a4d4, #b6fbff)",
+    background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
     padding: "2rem",
     fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
     textAlign: "center",
+    position: "relative",
+    overflow: "hidden",
   };
 
   const card = {
-    background: "white",
+    background: "rgba(255, 255, 255, 0.95)",
+    backdropFilter: "blur(10px)",
     padding: "3rem",
-    borderRadius: "20px",
-    boxShadow: "0 12px 20px rgba(0, 0, 0, 0.1)",
-    maxWidth: "600px",
+    borderRadius: "24px",
+    boxShadow: "0 20px 60px rgba(0, 0, 0, 0.3)",
+    maxWidth: "650px",
     width: "100%",
     marginTop: "2rem",
+    border: "1px solid rgba(255, 255, 255, 0.3)",
+    animation: "fadeInUp 0.6s ease-out",
   };
 
   const heading = {
-    fontSize: "2.5rem",
-    color: "#0074D9",
+    fontSize: "3rem",
+    background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+    WebkitBackgroundClip: "text",
+    WebkitTextFillColor: "transparent",
+    backgroundClip: "text",
     marginBottom: "1.5rem",
+    fontWeight: "800",
+    letterSpacing: "-1px",
   };
 
   const paragraph = {
-    fontSize: "1.1rem",
+    fontSize: "1.2rem",
     marginBottom: "2rem",
-    lineHeight: "1.5",
-    color: "#333",
+    lineHeight: "1.8",
+    color: "#444",
+    fontWeight: "400",
   };
 
   const button = {
-    backgroundColor: "#0074D9",
+    background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
     color: "#fff",
-    padding: "12px 28px",
-    borderRadius: "30px",
+    padding: "14px 36px",
+    borderRadius: "50px",
     border: "none",
-    fontSize: "1rem",
+    fontSize: "1.1rem",
     cursor: "pointer",
     transition: "all 0.3s ease",
+    fontWeight: "600",
+    boxShadow: "0 8px 20px rgba(102, 126, 234, 0.4)",
+    textTransform: "uppercase",
+    letterSpacing: "1px",
   };
 
   const buttonHover = {
-    backgroundColor: "#005fa3",
+    transform: "translateY(-2px)",
+    boxShadow: "0 12px 30px rgba(102, 126, 234, 0.6)",
   };
 
   const userInfoCard = {
-    background: "#ffffff",
-    padding: "1.5rem",
-    borderRadius: "16px",
-    boxShadow: "0 6px 12px rgba(0, 0, 0, 0.1)",
-    maxWidth: "500px",
+    background: "linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)",
+    padding: "2rem",
+    borderRadius: "20px",
+    boxShadow: "0 10px 30px rgba(0, 0, 0, 0.15)",
+    maxWidth: "550px",
     width: "100%",
     marginTop: "2rem",
     textAlign: "left",
+    border: "1px solid rgba(255, 255, 255, 0.5)",
   };
 
   const userField = {
-    fontSize: "1rem",
-    marginBottom: "0.75rem",
-    color: "#555",
+    fontSize: "1.05rem",
+    marginBottom: "1rem",
+    color: "#333",
+    display: "flex",
+    alignItems: "center",
+    padding: "0.5rem 0",
+    borderBottom: "1px solid rgba(0, 0, 0, 0.05)",
   };
 
   const label = {
-    fontWeight: "bold",
-    color: "#0077B6",
+    fontWeight: "700",
+    color: "#667eea",
+    minWidth: "140px",
+    fontSize: "0.95rem",
+    textTransform: "uppercase",
+    letterSpacing: "0.5px",
   };
 
   return (
