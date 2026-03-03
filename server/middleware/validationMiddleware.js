@@ -52,6 +52,11 @@ const validateItem = [
     .withMessage("Phone number is required")
     .isLength({ min: 10, max: 15 })
     .withMessage("Phone number must be between 10-15 digits"),
+  body("usn")
+    .notEmpty()
+    .withMessage("USN is required")
+    .isLength({ min: 3 })
+    .withMessage("USN must be at least 3 characters"),
   body("images")
     .isArray()
     .withMessage("Images should be an array (even if empty)"),

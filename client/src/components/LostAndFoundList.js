@@ -71,8 +71,8 @@ const LostAndFoundList = (props) => {
 
   const itemsGridStyle = {
     display: "grid",
-    gridTemplateColumns: "repeat(auto-fill, minmax(350px, 1fr))",
-    gap: "2rem",
+    gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))",
+    gap: "1.25rem",
     maxWidth: "1400px",
     margin: "0 auto",
     animation: "fadeIn 0.8s ease-out",

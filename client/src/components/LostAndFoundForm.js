@@ -334,7 +334,14 @@ function LostAndFoundForm() {
     } catch (error) {
       if (error.response) {
         console.error("Backend error response:", error.response.data);
-        alert(`Error: ${error.response.data.message || "Something went wrong!"}`);
+        
+        // Handle validation errors from express-validator
+        if (error.response.data.errors && Array.isArray(error.response.data.errors)) {
+          const errorMessages = error.response.data.errors.map(err => err.msg).join('\n');
+          alert(`Validation Error:\n${errorMessages}`);
+        } else {
+          alert(`Error: ${error.response.data.message || "Something went wrong!"}`);
+        }
       } else {
         console.error("Error submitting item:", error);
         alert("An error occurred while submitting the item.");

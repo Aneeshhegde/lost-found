@@ -71,22 +71,24 @@
   color: #2c3e50;
   margin-bottom: 0.5rem;
   font-size: 1rem;
+  transition: color 0.3s ease;
 }
 
-/* Input Fields */
+/* Input Fields - Light Mode */
 .form-group input[type="text"],
 .form-group input[type="tel"],
 .form-group select,
 .form-group textarea {
   width: 100%;
   padding: 14px 16px;
-  border: 2px solid #e0e0e0;
+  border: 2px solid #d0d0d0;
   border-radius: 12px;
   font-size: 1rem;
   transition: all 0.3s ease;
   outline: none;
   font-family: inherit;
-  background: #fafafa;
+  background: #ffffff;
+  color: #2c3e50;
   box-sizing: border-box;
 }
 
@@ -95,16 +97,17 @@
 .form-group select:focus,
 .form-group textarea:focus {
   border-color: #667eea;
-  background: white;
-  box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+  background: #f8f9ff;
+  box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.15);
   transform: translateY(-1px);
 }
 
 .form-group input[type="text"]::placeholder,
 .form-group input[type="tel"]::placeholder,
 .form-group textarea::placeholder {
-  color: #999;
+  color: #999999;
   font-size: 0.95rem;
+  opacity: 1;
 }
 
 /* Textarea */

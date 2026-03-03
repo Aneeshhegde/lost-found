@@ -19,9 +19,9 @@ const LostItems = (props) => {
 
   const boxStyle = {
     background: "white",
-    padding: "1.5rem",
-    borderRadius: "20px",
-    boxShadow: "0 10px 30px rgba(0, 0, 0, 0.1)",
+    padding: "1rem",
+    borderRadius: "12px",
+    boxShadow: "0 4px 12px rgba(0, 0, 0, 0.08)",
     display: "flex",
     flexDirection: "column",
     transition: "all 0.3s ease",
@@ -29,39 +29,41 @@ const LostItems = (props) => {
     animation: "fadeInUp 0.6s ease-out",
     position: "relative",
     overflow: "hidden",
+    height: "100%",
   };
 
   const itemTypeIndicator = {
     position: "absolute",
-    top: "1rem",
-    right: "1rem",
-    padding: "0.5rem 1rem",
-    borderRadius: "20px",
-    fontSize: "0.85rem",
+    top: "0.75rem",
+    right: "0.75rem",
+    padding: "0.35rem 0.75rem",
+    borderRadius: "12px",
+    fontSize: "0.7rem",
     fontWeight: "600",
     textTransform: "uppercase",
-    letterSpacing: "0.5px",
+    letterSpacing: "0.3px",
     background: item.concerntype === "lost" 
       ? "linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%)"
       : "linear-gradient(135deg, #51cf66 0%, #37b24d 100%)",
     color: "white",
-    boxShadow: "0 4px 10px rgba(0, 0, 0, 0.15)",
+    boxShadow: "0 2px 6px rgba(0, 0, 0, 0.15)",
   };
 
   const btnStyle = {
     background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
     color: "white",
-    padding: "12px 24px",
-    borderRadius: "25px",
+    padding: "0.6rem 1.2rem",
+    borderRadius: "8px",
     border: "none",
     cursor: "pointer",
-    fontSize: "0.95rem",
+    fontSize: "0.85rem",
     fontWeight: "600",
     transition: "all 0.3s ease",
-    boxShadow: "0 4px 15px rgba(102, 126, 234, 0.3)",
+    boxShadow: "0 2px 8px rgba(102, 126, 234, 0.3)",
     textTransform: "uppercase",
-    letterSpacing: "0.5px",
-    marginTop: "1rem",
+    letterSpacing: "0.3px",
+    marginTop: "auto",
+    width: "100%",
   };
 
   const btnStyleSubmit = {
@@ -90,11 +92,11 @@ const LostItems = (props) => {
 
   const imageStyle = {
     width: "100%",
-    maxHeight: "400px",
-    margin: "1rem 0",
-    borderRadius: "15px",
+    height: "180px",
+    margin: "0.75rem 0",
+    borderRadius: "8px",
     objectFit: "cover",
-    boxShadow: "0 8px 20px rgba(0, 0, 0, 0.1)",
+    boxShadow: "0 2px 8px rgba(0, 0, 0, 0.1)",
   };
 
   if (window.matchMedia("(min-width: 768px)").matches) {
@@ -189,27 +191,49 @@ const LostItems = (props) => {
   };
 
   const itemTitleStyle = {
-    fontSize: "1.8rem",
+    fontSize: "1.1rem",
     fontWeight: "700",
     color: "#2c3e50",
-    marginBottom: "1rem",
+    marginBottom: "0.5rem",
     marginTop: "0.5rem",
+    lineHeight: "1.3",
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+    display: "-webkit-box",
+    WebkitLineClamp: 2,
+    WebkitBoxOrient: "vertical",
   };
 
   const itemDescStyle = {
-    fontSize: "1.05rem",
-    color: "#555",
-    lineHeight: "1.6",
-    marginBottom: "1rem",
+    fontSize: "0.85rem",
+    color: "#666",
+    lineHeight: "1.5",
+    marginBottom: "0.75rem",
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+    display: "-webkit-box",
+    WebkitLineClamp: 3,
+    WebkitBoxOrient: "vertical",
   };
 
   const labelStyle = {
     fontWeight: "600",
     color: "#667eea",
+    fontSize: "0.8rem",
   };
 
   return (
-    <div style={boxStyle}>
+    <div 
+      style={boxStyle}
+      onMouseEnter={(e) => {
+        e.currentTarget.style.transform = "translateY(-4px)";
+        e.currentTarget.style.boxShadow = "0 8px 20px rgba(0, 0, 0, 0.15)";
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.transform = "translateY(0)";
+        e.currentTarget.style.boxShadow = "0 4px 12px rgba(0, 0, 0, 0.08)";
+      }}
+    >
       <div style={itemTypeIndicator}>
         {item.concerntype === "lost" ? "🔴 LOST" : "🟢 FOUND"}
       </div>
@@ -219,17 +243,17 @@ const LostItems = (props) => {
         <p style={itemDescStyle}>
           <span style={labelStyle}>Description:</span> {item.itemdescription}
         </p>
-        <p style={{ fontSize: "0.9rem", color: "#888", fontStyle: "italic" }}>
-          Reported on: {new Date(item.date).toLocaleDateString()}
+        <p style={{ fontSize: "0.75rem", color: "#999", fontStyle: "italic", marginBottom: "0.5rem" }}>
+          📅 {new Date(item.date).toLocaleDateString()}
         </p>
         {item.images && item.images.length > 0 && (
           <div>
-            <p style={{ ...labelStyle, marginTop: "1rem", marginBottom: "0.5rem" }}>
-              📷 Images:
-            </p>
-            {item.images.map((image, index) => (
-              <img key={index} src={image} alt="Item" style={imageStyle} />
-            ))}
+            <img src={item.images[0]} alt="Item" style={imageStyle} />
+            {item.images.length > 1 && (
+              <p style={{ fontSize: "0.7rem", color: "#999", marginTop: "0.25rem" }}>
+                +{item.images.length - 1} more image{item.images.length > 2 ? 's' : ''}
+              </p>
+            )}
           </div>
         )}
       </div>

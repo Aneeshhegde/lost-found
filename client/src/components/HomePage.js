@@ -193,12 +193,6 @@ const HomePage = () => {
                   <span style={label}>Email:</span>{" "}
                   {userDetails.data.gotUser.email}
                 </p>
-                <p style={userField}>
-                  <span style={label}>Joined On:</span>{" "}
-                  {new Date(
-                    userDetails.data.gotUser.createdAt
-                  ).toLocaleDateString()}
-                </p>
               </div>
             </>
           )}
@@ -206,6 +200,23 @@ const HomePage = () => {
 
         <div style={{ marginTop: "5rem", width: "100%", maxWidth: "800px" }}>
           <GroupInfo />
+        </div>
+
+        {/* Copyright Footer */}
+        <div style={{
+          marginTop: "3rem",
+          paddingTop: "2rem",
+          borderTop: "1px solid rgba(255, 255, 255, 0.2)",
+          textAlign: "center",
+          color: "rgba(255, 255, 255, 0.8)",
+          fontSize: "0.9rem"
+        }}>
+          <p style={{ margin: "0.5rem 0" }}>
+            © {new Date().getFullYear()} Aneesh Hegde. All rights reserved.
+          </p>
+          <p style={{ margin: "0.5rem 0", fontSize: "0.85rem", opacity: 0.7 }}>
+            Lost & Found Tracking System
+          </p>
         </div>
       </div>
     </>

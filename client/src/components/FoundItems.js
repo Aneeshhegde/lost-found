@@ -14,40 +14,41 @@ const FoundItems = ({ item }) => {
   if (!item || item.concerntype !== "found") return null;
 
   const containerStyle = {
-    backgroundColor: "rgba(255, 255, 255, 0.8)",
+    backgroundColor: "rgba(255, 255, 255, 0.9)",
     backdropFilter: "blur(10px)",
-    borderRadius: "16px",
-    padding: "20px",
-    margin: "30px auto",
-    maxWidth: "700px",
-    boxShadow: "0 8px 24px rgba(0, 0, 0, 0.2)",
+    borderRadius: "12px",
+    padding: "1rem",
+    boxShadow: "0 4px 12px rgba(0, 0, 0, 0.08)",
     fontFamily: "'Segoe UI', sans-serif",
     color: "#1f1f1f",
     display: "flex",
     flexDirection: "column",
-    gap: "10px",
+    gap: "0.75rem",
+    height: "100%",
+    transition: "all 0.3s ease",
   };
 
   const imageStyle = {
     width: "100%",
-    maxWidth: "500px",
-    height: "auto",
-    marginTop: "10px",
-    borderRadius: "10px",
-    boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+    height: "180px",
+    borderRadius: "8px",
+    boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
     objectFit: "cover",
+    marginBottom: "0.5rem",
   };
 
   const buttonStyle = {
     backgroundColor: "#0074D9",
     color: "#fff",
     border: "none",
-    padding: "10px 20px",
+    padding: "0.6rem 1rem",
     borderRadius: "8px",
-    fontSize: "1rem",
+    fontSize: "0.85rem",
+    fontWeight: "600",
     cursor: "pointer",
-    alignSelf: "start",
-    transition: "background 0.3s ease",
+    transition: "all 0.3s ease",
+    width: "100%",
+    marginTop: "auto",
   };
 
   const modalOverlayStyle = {
@@ -132,19 +133,32 @@ const FoundItems = ({ item }) => {
 
   return (
     <>
-      <div style={containerStyle}>
-        <h2>📦 {item.itemname}</h2>
-        <p>📝 {item.itemdescription}</p>
-        <p>📌 Status: <strong>{item.concerntype}</strong></p>
-
+      <div 
+        style={containerStyle}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.transform = "translateY(-4px)";
+          e.currentTarget.style.boxShadow = "0 8px 20px rgba(0, 0, 0, 0.15)";
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.transform = "translateY(0)";
+          e.currentTarget.style.boxShadow = "0 4px 12px rgba(0, 0, 0, 0.08)";
+        }}
+      >
+        <h2 style={{ fontSize: "1.1rem", fontWeight: "bold", marginBottom: "0.5rem", overflow: "hidden", textOverflow: "ellipsis", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical" }}>📦 {item.itemname}</h2>
+        
         {item.images?.length > 0 && (
-          <>
-            <p>📸 Image Preview:</p>
-            {item.images.map((img, idx) => (
-              <img key={idx} src={img} alt={`item-${idx}`} style={imageStyle} />
-            ))}
-          </>
+          <div>
+            <img src={item.images[0]} alt="item" style={imageStyle} />
+            {item.images.length > 1 && (
+              <p style={{ fontSize: "0.7rem", color: "#999", marginTop: "0.25rem" }}>
+                +{item.images.length - 1} more image{item.images.length > 2 ? 's' : ''}
+              </p>
+            )}
+          </div>
         )}
+        
+        <p style={{ fontSize: "0.85rem", lineHeight: "1.5", color: "#666", overflow: "hidden", textOverflow: "ellipsis", display: "-webkit-box", WebkitLineClamp: 3, WebkitBoxOrient: "vertical" }}>{item.itemdescription}</p>
+        <p style={{ fontSize: "0.75rem", color: "#999", fontStyle: "italic" }}>📌 {item.concerntype.toUpperCase()}</p>
 
         <button style={buttonStyle} onClick={handleClaim}>
           ✅ Claim Item

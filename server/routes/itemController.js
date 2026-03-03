@@ -50,7 +50,7 @@ const fetchItem = async (req, res) => {
 };
 
 const createItem = async (req, res) => {
-  const { images, phonenumber } = req.body;
+  const { images, phonenumber, usn } = req.body;
   try {
     // Extract data from the request body
     const itemname = req.body.itemname;
@@ -58,6 +58,7 @@ const createItem = async (req, res) => {
     const concerntype = req.body.concerntype;
     console.log("Images:", images);
     console.log("Phone number:", phonenumber);
+    console.log("USN:", usn);
 
     // Get the user ID from the authenticated user (assuming you have authentication middleware)
     const userId = req.params.id; // Adjust this based on your authentication setup
@@ -68,6 +69,7 @@ const createItem = async (req, res) => {
       itemdescription: itemdescription,
       concerntype: concerntype,
       phonenumber: phonenumber,
+      usn: usn,
       images: images,
       user: userId, // Include the user ID in the item
     });

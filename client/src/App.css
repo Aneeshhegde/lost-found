@@ -3,6 +3,270 @@ body {
   margin: 0;
   padding: 0;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* ========================================
+   DARK MODE STYLES
+   ======================================== */
+
+/* Dark Mode Body */
+body.dark-mode {
+  background: linear-gradient(135deg, #0f1419 0%, #1a1f2e 100%);
+  color: #ffffff;
+}
+
+/* Dark Mode Cards and Containers */
+body.dark-mode .lost-and-found-form,
+body.dark-mode .home-container,
+body.dark-mode .container,
+body.dark-mode .card {
+  background: #1e2a3a !important;
+  color: #ffffff !important;
+  border-color: #2d3f5f !important;
+}
+
+/* Dark Mode Inputs */
+body.dark-mode input,
+body.dark-mode textarea,
+body.dark-mode select {
+  background: #2a3544 !important;
+  color: #ffffff !important;
+  border-color: #3d4f6f !important;
+}
+
+body.dark-mode input::placeholder,
+body.dark-mode textarea::placeholder {
+  color: #8b9dc3 !important;
+  opacity: 1 !important;
+}
+
+body.dark-mode input:focus,
+body.dark-mode textarea:focus,
+body.dark-mode select:focus {
+  background: #34425a !important;
+  border-color: #5b7bb4 !important;
+  box-shadow: 0 0 0 4px rgba(91, 123, 180, 0.3) !important;
+}
+
+/* Dark Mode Text */
+body.dark-mode h1,
+body.dark-mode h2,
+body.dark-mode h3,
+body.dark-mode h4,
+body.dark-mode h5,
+body.dark-mode h6 {
+  color: #ffffff !important;
+}
+
+body.dark-mode p,
+body.dark-mode span {
+  color: #ffffff !important;
+}
+
+body.dark-mode label {
+  color: #ffffff !important;
+  font-weight: 600 !important;
+}
+
+/* Dark Mode Links */
+body.dark-mode a {
+  color: #6b9bd1 !important;
+}
+
+/* Dark Mode Buttons (preserve gradient buttons) */
+body.dark-mode button:not([style*="gradient"]):not(.submit-button) {
+  background: #2d3f5f !important;
+  color: #ffffff !important;
+  border-color: #3d5080 !important;
+}
+
+body.dark-mode button:not([style*="gradient"]):not(.submit-button):hover {
+  background: #3d5080 !important;
+  color: #ffffff !important;
+}
+
+/* Dark Mode Submit Button - Blue gradient */
+body.dark-mode .submit-button {
+  background: linear-gradient(135deg, #4a6fa5 0%, #3d5a8c 100%) !important;
+  box-shadow: 0 8px 20px rgba(74, 111, 165, 0.5) !important;
+}
+
+body.dark-mode .submit-button:hover {
+  box-shadow: 0 12px 30px rgba(74, 111, 165, 0.7) !important;
+}
+
+/* Dark Mode Item Cards */
+body.dark-mode .lost-and-found-item,
+body.dark-mode .item-card {
+  background: #1e2a3a !important;
+  border-color: #2d3f5f !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5) !important;
+}
+
+/* Dark Mode Modal */
+body.dark-mode .modal {
+  background-color: rgba(15, 20, 25, 0.9) !important;
+}
+
+body.dark-mode .modal-content {
+  background: #1e2a3a !important;
+  border-color: #2d3f5f !important;
+}
+
+/* Dark Mode File Upload */
+body.dark-mode .file-upload-label {
+  background: #2a3544 !important;
+  border-color: #5b7bb4 !important;
+}
+
+body.dark-mode .file-upload-label:hover {
+  background: #34425a !important;
+  border-color: #6b9bd1 !important;
+}
+
+body.dark-mode .upload-text {
+  color: #6b9bd1 !important;
+}
+
+/* Dark Mode Image Preview */
+body.dark-mode .preview-image-wrapper {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6) !important;
+}
+
+/* Dark Mode Empty State */
+body.dark-mode .empty-state {
+  color: #8b9dc3 !important;
+}
+
+/* Dark Mode Scrollbar */
+body.dark-mode ::-webkit-scrollbar-track {
+  background: #0f1419;
+}
+
+body.dark-mode ::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #4a6fa5 0%, #3d5a8c 100%);
+}
+
+/* Dark Mode Form Container */
+body.dark-mode .form-container {
+  background: linear-gradient(135deg, #0f1419 0%, #1a1f2e 100%) !important;
+}
+
+/* Dark Mode Shadows - Softer for dark theme */
+body.dark-mode .lost-and-found-form,
+body.dark-mode .card {
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7) !important;
+}
+
+/* Dark Mode Borders */
+body.dark-mode .form-header {
+  border-bottom-color: #2d3f5f !important;
+}
+
+/* Dark Mode Field Hints */
+body.dark-mode .field-hint {
+  color: #8b9dc3 !important;
+}
+
+/* Dark Mode Form Subtitle */
+body.dark-mode .form-subtitle {
+  color: #a8b9d1 !important;
+}
+
+/* Dark Mode Admin Portal */
+body.dark-mode .admin-portal,
+body.dark-mode .admin-card {
+  background: #1e2a3a !important;
+  color: #ffffff !important;
+}
+
+/* Dark Mode Tables */
+body.dark-mode table {
+  background: #1e2a3a !important;
+  color: #ffffff !important;
+}
+
+body.dark-mode table th {
+  background: #151e2b !important;
+  color: #ffffff !important;
+}
+
+body.dark-mode table td {
+  border-color: #2d3f5f !important;
+}
+
+body.dark-mode table tr:hover {
+  background: #2a3544 !important;
+}
+
+/* Dark Mode Navbar - Blackish-blue gradient */
+body.dark-mode nav {
+  background: linear-gradient(135deg, #1a2332 0%, #0f1419 100%) !important;
+}
+
+/* Preserve gradient text in dark mode - Blue gradient */
+body.dark-mode .form-header h2,
+body.dark-mode .gradient-text {
+  background: linear-gradient(135deg, #5b7bb4 0%, #6b9bd1 100%) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  background-clip: text !important;
+}
+
+/* Dark Mode Transitions */
+body.dark-mode * {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+/* ========================================
+   ENHANCED COLOR ADJUSTMENTS
+   ======================================== */
+
+/* Light Mode - Better Input Contrast */
+input[type="text"],
+input[type="tel"],
+input[type="email"],
+input[type="password"],
+textarea,
+select {
+  color: #2c3e50 !important;
+}
+
+input[type="text"]::placeholder,
+input[type="tel"]::placeholder,
+input[type="email"]::placeholder,
+input[type="password"]::placeholder,
+textarea::placeholder {
+  color: #999999 !important;
+  opacity: 1 !important;
+}
+
+/* Dark Mode - Better Select Dropdown */
+body.dark-mode select option {
+  background: #2a3544 !important;
+  color: #ffffff !important;
+}
+
+/* Dark Mode - Better Card Backgrounds */
+body.dark-mode .home-card,
+body.dark-mode .user-info-card {
+  background: rgba(30, 42, 58, 0.95) !important;
+  border: 1px solid #2d3f5f !important;
+}
+
+/* Dark Mode - Better Button Text */
+body.dark-mode button {
+  font-weight: 600 !important;
+}
+
+/* Dark Mode - Remove Image Button */
+body.dark-mode .remove-image {
+  background: rgba(255, 80, 80, 0.9) !important;
+}
+
+body.dark-mode .remove-image:hover {
+  background: rgba(255, 60, 60, 1) !important;
 }
 
 @media (max-width: 767px) {
