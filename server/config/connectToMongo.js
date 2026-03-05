@@ -1,14 +1,16 @@
 const mongoose = require("mongoose");
 
-// Remove "MONGO_URL=" from the string
-//const mongoURI = "mongodb+srv://shivakumarmm1732004:kIDjwhB01wLiXhM1@lost-found.8hb8vll.mongodb.net/?retryWrites=true&w=majority&appName=Lost-Found";
-const mongoURI = "mongodb://localhost:27017/lost-found";
 const connectToMongo = async () => {
   try {
-    await mongoose.connect(mongoURI);
-    console.log("Connected to MongoDB Successfully!");
+    await mongoose.connect(process.env.MONGO_URI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+
+    console.log("MongoDB Connected");
   } catch (error) {
-    console.error("Error connecting to MongoDB:", error);
+    console.error("MongoDB connection error:", error);
+    process.exit(1);
   }
 };
 
