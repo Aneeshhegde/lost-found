@@ -108,8 +108,13 @@ const login = async (req, res) => {
     res.json({ success: true, token });
   } catch (error) {
     // Handle errors here
-    console.error("Error during login:", error);
-    res.status(500).json({ success: false, message: "Internal Server Error" });
+    console.error("=================================");
+    console.error("Error during login:");
+    console.error("Message:", error.message);
+    console.error("Stack:", error.stack);
+    console.error("Full error:", error);
+    console.error("=================================");
+    res.status(500).json({ success: false, message: "Server error: " + error.message });
   }
 }
 
