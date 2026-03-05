@@ -207,7 +207,6 @@ const Navbar = () => {
   const [showAdminModal, setShowAdminModal] = useState(false);
   const [adminPassword, setAdminPassword] = useState("");
   const [isAdmin, setIsAdmin] = useState(false);
-  const [darkMode, setDarkMode] = useState(false);
 
   useEffect(() => {
     const checkScreenSize = () => {
@@ -262,28 +261,6 @@ const Navbar = () => {
       setIsAdmin(true);
     }
   }, []);
-
-  // Check dark mode preference on mount
-  useEffect(() => {
-    const savedMode = localStorage.getItem("darkMode");
-    if (savedMode === "true") {
-      setDarkMode(true);
-      document.body.classList.add("dark-mode");
-    }
-  }, []);
-
-  // Toggle dark mode
-  const toggleDarkMode = () => {
-    const newMode = !darkMode;
-    setDarkMode(newMode);
-    localStorage.setItem("darkMode", newMode.toString());
-    
-    if (newMode) {
-      document.body.classList.add("dark-mode");
-    } else {
-      document.body.classList.remove("dark-mode");
-    }
-  };
 
   const isActive = (path) => location.pathname === path;
 
@@ -399,35 +376,6 @@ const Navbar = () => {
           </Link>
         )}
         
-        {/* Dark Mode Toggle */}
-        <button
-          onClick={toggleDarkMode}
-          style={{
-            background: darkMode ? "rgba(255, 255, 255, 0.2)" : "rgba(255, 255, 255, 0.15)",
-            color: "white",
-            border: "2px solid rgba(255, 255, 255, 0.3)",
-            borderRadius: "25px",
-            padding: "10px 18px",
-            cursor: "pointer",
-            fontSize: "1.2rem",
-            transition: "all 0.3s ease",
-            display: "flex",
-            alignItems: "center",
-            gap: "8px",
-            fontWeight: "600",
-          }}
-          onMouseEnter={(e) => {
-            e.target.style.background = "rgba(255, 255, 255, 0.3)";
-            e.target.style.transform = "scale(1.05)";
-          }}
-          onMouseLeave={(e) => {
-            e.target.style.background = darkMode ? "rgba(255, 255, 255, 0.2)" : "rgba(255, 255, 255, 0.15)";
-            e.target.style.transform = "scale(1)";
-          }}
-          title={darkMode ? "Switch to Light Mode" : "Switch to Dark Mode"}
-        >
-          {darkMode ? "☀️" : "🌙"}
-        </button>
       </div>
 
       <span style={iconStyle} onClick={handleToggleMenu}>
@@ -478,27 +426,6 @@ const Navbar = () => {
           </Link>
         )}
         
-        {/* Dark Mode Toggle - Mobile */}
-        <button
-          onClick={() => {
-            toggleDarkMode();
-            setMenuOpen(false);
-          }}
-          style={{
-            ...linkStyle("/"),
-            backgroundColor: darkMode ? "rgba(255, 255, 255, 0.2)" : "rgba(255, 255, 255, 0.15)",
-            border: "2px solid rgba(255, 255, 255, 0.3)",
-            cursor: "pointer",
-            width: "100%",
-            fontSize: "1.1rem",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            gap: "10px",
-          }}
-        >
-          {darkMode ? "☀️ Light Mode" : "🌙 Dark Mode"}
-        </button>
       </div>
 
       {/* Admin Login Modal */}
