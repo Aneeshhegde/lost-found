@@ -70,19 +70,27 @@ const login = async (req, res) => {
     // get the email and password off req body
     const { email, password } = req.body;
 
+    console.log("Login attempt for email:", email);
+
     // find the user with the requested email
     const user = await User.findOne({ email: email });
 
     if (!user) {
-      return res.sendStatus(401);
+      console.log("User not found:", email);
+      return res.status(401).json({ success: false, message: "Invalid credentials" });
     }
+
+    console.log("User found, comparing passwords...");
 
     // compare sent-in password with the found user password hash
     const passwordMatch = bcrypt.compareSync(password, user.password);
 
     if (!passwordMatch) {
-      return res.sendStatus(401);
+      console.log("Password mismatch for user:", email);
+      return res.status(401).json({ success: false, message: "Invalid credentials" });
     }
+
+    console.log("Login successful for:", email);
 
     // create a jwt token
     const expirationTime = Date.now() + 1000 * 60 * 60 * 24 * 30;
@@ -97,11 +105,11 @@ const login = async (req, res) => {
     });
 
     // send it
-    res.json({ token });
+    res.json({ success: true, token });
   } catch (error) {
     // Handle errors here
     console.error("Error during login:", error);
-    res.status(500).send("Internal Server Error");
+    res.status(500).json({ success: false, message: "Internal Server Error" });
   }
 }
 

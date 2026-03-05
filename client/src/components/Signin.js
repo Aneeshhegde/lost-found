@@ -61,7 +61,22 @@ function Signin() {
       navigate("/home");
     } catch (error) {
       console.error("Error during login:", error);
-      alert("Wrong Credentials. Please try again.");
+      
+      if (error.response) {
+        // Server responded with error
+        if (error.response.status === 401) {
+          alert(error.response.data?.message || "Invalid credentials. Please check your email and password.");
+        } else if (error.response.status === 500) {
+          alert("Server error. Please try again later.");
+        } else {
+          alert(error.response.data?.message || "Login failed. Please try again.");
+        }
+      } else if (error.request) {
+        // Request made but no response received
+        alert("Cannot connect to server. Please check your internet connection.");
+      } else {
+        alert("An error occurred. Please try again.");
+      }
     } finally {
       setLoading(false);
     }
